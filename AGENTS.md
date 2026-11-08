@@ -1,3 +1,5 @@
 # Shared Rust UI library
 
 This is a public first-party library. Keep application identities, domain templates, credentials, inputs and test-run artifacts out of it. Use idiomatic safe Rust, official compatible dependencies, Rustfmt, locked Clippy with warnings denied and behavior tests. Keep generated outputs/caches/scratch on V:\Development\rust-htmx-ui. Permanent canonical main stays here on I:. Track work in an issue, use a reviewed PR, verify public mirror publication and canonical synchronization, then remove exact issue worktrees through Git. Preserve upstream licenses and unmodified third-party assets. Do not claim untested parity or protocol behavior.
+
+Consumers retain Tailwind, HTMX and Alpine/CSP on the latest official stable releases. Exact pins/lockfiles, advisory checks and affected browser/native tests qualify each update. Shared components own presentation; applications own their runtimes, transport and data. Never patch third-party assets or use runtime CDN latest aliases.
