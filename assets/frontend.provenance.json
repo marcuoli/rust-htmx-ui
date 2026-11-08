@@ -1,0 +1,48 @@
+{
+  "dependencies": {
+    "@alpinejs/csp": {
+      "version": "3.17.5",
+      "source": "https://registry.npmjs.org/@alpinejs/csp/-/csp-3.17.5.tgz",
+      "integrity": "sha512-7e5lYgzJJL2eZ7esnx+E7wtxws+VDs9em9ztttZ+AQAYEng2bABHFp2SUga0wt84RyfL7hc6B+S/RGglXsPf6w=="
+    },
+    "htmx.org": {
+      "version": "2.0.11",
+      "source": "https://registry.npmjs.org/htmx.org/-/htmx.org-2.0.11.tgz",
+      "integrity": "sha512-Thx/WtpeOQqSrqBCw/A1cwGJGg4UrVa3+sW0GmrM3p4gJgO89ecH4qtbnyzDDWFvBTqjnIMCgELTNt636dtamA=="
+    },
+    "echarts": {
+      "version": "6.1.0",
+      "source": "https://registry.npmjs.org/echarts/-/echarts-6.1.0.tgz",
+      "integrity": "sha512-q0yaFPggC9FUdsWH4blavRWFmxdrIodbkoKNAjJudAI6CA9gNPxHtV2RcZNEepZVlk4yvBYkOkbk6HIVpIyHZA=="
+    },
+    "@tailwindcss/cli": {
+      "version": "4.3.5",
+      "source": "https://registry.npmjs.org/@tailwindcss/cli/-/cli-4.3.5.tgz",
+      "integrity": "sha512-+evrrLZEgNPDXgdIxD6Zfc23WhSYZQeGwniO5u9M4zC92kbEtIjKd8l2QWeO7du8kl4gF8z7YArnUGHG4y2Jzg=="
+    },
+    "tailwindcss": {
+      "version": "4.3.5",
+      "source": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.3.5.tgz",
+      "integrity": "sha512-FcQk9BuffmEHJP2G0XmB2SplU1aLTI7j07Kunk+U74Ny+XiWOtzXz9aujFZ/avntw1e2cOv/3PkgzflQ7gX2vQ=="
+    },
+    "esbuild": {
+      "version": "0.28.2",
+      "source": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.2.tgz",
+      "integrity": "sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA=="
+    }
+  },
+  "assets": {
+    "ui.css": "48ee197bed639cc6c858894f85b8b9478041501785c0d54582b95acffc8cac03",
+    "frontend.css": "4e48c5030b9df993a6cf0e9be65b59ac086ad3ebc5a522b786bc6cb70bee9b1c",
+    "ui-core.js": "a077cbfe3b5de78e228ca0317308a6bf00aa78faee325edf2d607cf5fcad7bc0",
+    "frontend-versions.json": "3d3c9182a6182d495cc91e0bfa5c8993d4f7fba6f2f5035abc4b3ef740c3e489",
+    "frontend-LICENSES.txt": "124e288ab02943c877623d75fbb2dfb5f60046c8d98fbff36d5571c8530bd511",
+    "echarts.min.js": "b66b25aeb4df84e33199dc21694014d336d222cbd9deb0e5a7c14bd6aa0d0fd0",
+    "echarts.LICENSE.txt": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+    "echarts.NOTICE.txt": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+    "echarts-d3.LICENSE.txt": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+    "zrender.LICENSE.txt": "a681e9d183c72b4af4856935893805eb48c08f0f5a3f260203db7444c20fb98a",
+    "tslib.LICENSE.txt": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751",
+    "tslib.CopyrightNotice.txt": "dd835e67a9a297da32f9467d7677a5d02c8e50e10f15da43b810147c79c04b9b"
+  }
+}

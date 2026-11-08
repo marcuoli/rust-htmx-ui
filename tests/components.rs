@@ -49,7 +49,7 @@ fn chart_json_is_escaped_and_native_options_are_preserved() {
     assert!(output.contains("&quot;"));
 }
 #[test]
-fn defaults_and_controls_compose_without_runtime_frameworks() {
+fn defaults_and_controls_compose_without_consumer_framework_setup() {
     let output=ui::page("Example", html! {}, html! {
         (ui::widget("Overview","Live information",html! {},html! {
             (ui::button(&ui::Button{label:"Save",..Default::default()}))
@@ -63,4 +63,22 @@ fn defaults_and_controls_compose_without_runtime_frameworks() {
     assert!(output.contains("data-tone=\"success\""));
     assert!(!output.contains("https://"));
     assert_eq!(output.matches("ui-runtime.js").count(), 1);
+}
+
+#[test]
+fn shared_head_owns_framework_assets_and_registration_order() {
+    let markup = ui::head(&ui::AssetPrefix::default(), false, None).into_string();
+    assert_eq!(markup.matches("ui-core.js").count(), 1);
+    assert!(markup.contains("frontend.css"));
+    let runtime = ui::asset("ui-core.js").expect("framework runtime must be embedded");
+    let script = String::from_utf8_lossy(runtime.bytes);
+    assert!(script.contains("RustHTMXUI"));
+    let licenses = ui::asset("frontend-LICENSES.txt").expect("runtime licenses must be embedded");
+    assert!(String::from_utf8_lossy(licenses.bytes).contains("htmx.org"));
+}
+#[test]
+fn shared_view_host_owns_request_synchronization() {
+    let markup = ui::view_host("view", html! {p {"Content"}}).into_string();
+    assert!(markup.contains("data-ui-view"));
+    assert!(markup.contains("hx-sync=\"this:replace\""));
 }

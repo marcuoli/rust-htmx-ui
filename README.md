@@ -1,77 +1,99 @@
 # rust-htmx-ui
 
-Composable, escaped Rust UI components with embedded styles and optional charts,
-following the public go-htmx-ui design. MIT licensed.
+Composable Maud UI components and library-owned frontend resources for Rust apps.
 
-The library owns presentation and shared theme/feedback behavior. Applications
-own routes, authentication, authorization, state, Alpine/HTMX, SSE and CSP.
-Ordinary consumers need no Node runtime or template generation step.
+Version0.2.0 owns the complete frontend dependency boundary: official Tailwind,
+HTMX, Alpine CSP, optional ECharts, exact npm pins/lockfile, audits, reproducible
+builds, embedded assets, licenses and framework initialization. Consumers need
+Cargo only; no Node/npm, frontend dependency manifest or frontend build step.
 
-## Render components
+## Consumer integration
 
-Use Maud 0.27 with the crate. Components return Maud Markup and compose as Rust functions:
+Use page/head once per document and serve asset(filename) at the matching
+application-owned local prefix (default /assets/ui/). The shared head loads the
+library CSS/runtime before your extra head's deferred domain script.
 
 ~~~rust
 use maud::html;
 use rust_htmx_ui as ui;
-let markup = ui::page("Monitor", html! {}, ui::widget(
-    "Requests", "Live service information", html! {},
-    ui::button(&ui::Button { label: "Refresh", ..Default::default() }),
-));
-let html = markup.into_string();
+let document=ui::page("Monitor",html! {
+    script defer src="/assets/domain.js" {}
+},html!{
+    div x-data="monitor" {
+        (ui::view_host("content",ui::widget("Status","",html!{},html!{})))
+    }
+});
 ~~~
 
-Return the rendered string using your web framework's HTML response type.
-Maud also provides optional framework integrations. Register your own
-/assets/ui/{filename} route using asset(filename), returning its mime and bytes.
-Keep that route behind your application's existing request/security middleware.
+Your plain domain script registers its controller through the library:
 
-page supplies one copy of shared assets with Standard/System appearance.
-app_shell adds a keyboard-accessible skip link, responsive navigation and theme
-switcher. Standard, Ocean and Forest have paired light/dark palettes.
-Local appearance preferences use the rust-htmx-ui:appearance storage key.
+~~~js
+RustHTMXUI.register('monitor', () => ({
+  message: 'Ready',
+  async showDetails() {
+    await RustHTMXUI.navigate('/views/details', {target:'#content'});
+  }
+}));
+~~~
 
-## Components and compatibility
+Do not import/load/configure/start Alpine, HTMX, Tailwind or other frontend
+framework resources in a consumer. They are private to the shared runtime.
+Deferred domain scripts register before DOMContentLoaded; the library then starts
+Alpine once. The facade exposes register, navigate and immutable versions.
+There are no raw Alpine/HTMX globals. Domain API calls, application state,
+credentials, server routes, native SSE and security policy remain app-owned.
 
-| Go UI area | Rust API / status |
-|---|---|
-| Page, Head, assets | page, head, AssetPrefix, asset |
-| AppShell, ThemeSwitcher, Stack, Grid | app_shell, theme_switcher, stack, grid |
-| Widget, WidgetHeader | widget (heading, actions and body) |
-| WidgetMetric | metric; exact values, optional application-owned live binding |
-| Buttons, fields, inputs, textarea, checkbox | Button, Field, FieldKind |
-| Tabs/navigation | nav_item with caller-owned local route and fragment target |
-| StatusIndicator | Status and Tone; label, tone and pulse bindings |
-| Inline feedback, dialog shell | alert, modal |
-| ECharts native host | chart; head(..., true, ...) loads optional official engine |
-| Numeric compact-format/unit conversion APIs | Not ported; no full Go API parity claim |
-| Table implementation | Separate concern; not copied from go-htmx-table |
-| Go template-specific props/aliases | Not source-compatible with Rust |
+navigate performs same-origin GETs into a shared view_host. Link nav_item and
+programmatic navigation share target-owned request replacement. The library emits
+bubbling lifecycle events: rusthtmxui:before-navigation (cancelable, target/source),
+rusthtmxui:navigation (target) and rusthtmxui:navigation-error (target/status).
+Consumers handle these events through the library contract rather than framework
+events. HTMX eval, script injection, indicator style injection, external requests
+and history snapshots are disabled centrally.
 
-This initial API covers reusable application controls and layout. The shared
-web runtime retains its existing GoHTMXUI JavaScript namespace and data-ui-*
-contract so the original runtimes remain byte-for-byte identifiable. The stylesheet is
-rebuilt from those first-party sources with pinned Tailwind4.3.5.
-CSS is in Tailwind's components layer; consumer utilities may override defaults.
+Plain domain CSS may style application-specific layout using shared tokens.
+It must not import/build Tailwind or carry framework setup. Shared frontend.css
+supplies current Tailwind base/utilities; reusable component styles belong here.
+Local assets only: no runtime CDN or floating package version resolution.
+
+## Components
+
+page, head, AssetPrefix, asset, app_shell, theme_switcher, view_host, stack, grid,
+widget, metric, Button/Field/FieldKind, nav_item, Status/Tone, alert, modal and
+native ECharts chart hosts compose as escaped Maud Markup. The optional chart
+engine is loaded only by head(..., true, ...). Standard/Ocean/Forest support
+light/dark/system appearance and persistent preferences.
+
+The API is not source-compatible with Go templ props. Go numeric compact/unit
+formatting APIs are not ported; tables remain a separate concern. The reviewed
+first-party presentation runtime keeps its existing GoHTMXUI namespace/data-ui-*
+contract for themes, feedback and optional charts; consumers use RustHTMXUI for
+frontend dependency/runtime operations.
 
 ## Trust boundaries
 
-Maud escapes text, values and chart JSON in HTML attributes. Markup represents
-trusted HTML composition. Alpine expressions, URLs, extra head markup and HTMX
-routes are developer-defined code, never untrusted user values. HTML escaping
-does not sanitize JavaScript expressions or URL schemes. Do not use raw
-PreEscaped content for user input. AssetPrefix rejects remote/encoded URLs,
-controls and dot segments; asset only selects exact embedded filenames.
+Maud escapes text, values and chart JSON attributes. Markup, Alpine expressions,
+URLs and extra head content are trusted developer code. Never use raw
+PreEscaped markup for user values. The asset API selects exact embedded filenames;
+AssetPrefix rejects remote/encoded paths and dot segments. The library registers
+no routes or auth policy. Apply your app's middleware to all local asset/view
+routes and preserve CSP/session/origin controls.
 
-The library does not bundle Alpine or HTMX. Consumers select their current stable
-official releases and test them with the shared runtime. Serve local embedded
-assets rather than runtime CDN dependencies. Preserve all third-party notices
-when enabling charts; see NOTICE.md and assets/provenance.json.
+## Maintenance
 
-## Development
+Only this repository updates/builds frontend dependencies. Run
+scripts/Build-Assets.ps1 with a scoped ProjectStorage/TaskName. It checks every
+direct pin against official stable registry tags, installs with npm ci,
+audits the locked graph, builds styles/runtime and verifies/copies official chart
+assets/licenses. All temporary/generated state is staged on V: before snapshots
+are deliberately promoted. Third-party source and caches remain unmodified.
 
-Supported validation: Rust/Clippy 1.99.1, edition2024, Windows x86_64 MSVC,
-default features. Scope Cargo outputs/cache/temp to the owning V: namespace.
+The CSP package omits its license in npm; licenses/ retains the exact official
+Alpine release license with version/hash provenance. Asset metadata/notices are
+served as frontend-versions.json, frontend.provenance.json and frontend-LICENSES.txt.
+See NOTICE.md for the preserved chart/presentation provenance.
+
+Rust/Clippy1.99.1, edition2024, Windows x86_64 MSVC, default features:
 
 ~~~text
 cargo fmt --all -- --check
@@ -80,7 +102,4 @@ cargo test --locked
 cargo package --locked
 ~~~
 
-Run scripts/Build-Styles.ps1 to rebuild shared CSS with current stable Tailwind
-and an advisory-checked locked npm graph; generated scratch stays on V:.
-examples/showcase.rs emits a synthetic HTML page for browser qualification.
-Asset serving and transport remain outside the library.
+The synthetic showcase exercises the same embedded runtime and components.
