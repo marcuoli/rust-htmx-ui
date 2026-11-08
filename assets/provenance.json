@@ -58,7 +58,7 @@
   "commit": "c60517495bac85c28d23e4ffb0b5276eeecf5cb5",
   "derived_styles": {
     "tailwind": "4.3.5",
-    "sha256": "66f96aa3c44f1fd1c2123b212f6d4ed6c2ece6c8c3c898802ae9ed00dadb8ce9",
+    "sha256": "7d7a201d6bf0799ade7a971ce7107eb4e0d589a4ebb1e5f513b6c65b2d534ecb",
     "output": "ui.css",
     "source_paths": [
       "styles/components.css",

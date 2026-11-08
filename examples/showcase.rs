@@ -3,13 +3,18 @@ use rust_htmx_ui as ui;
 use std::io::{self, Write};
 fn main() -> io::Result<()> {
     let prefix = ui::AssetPrefix::default();
+    let appearance_style = if std::env::args().any(|arg| arg == "--button-appearance") {
+        ui::AppearanceToggleStyle::Button
+    } else {
+        ui::AppearanceToggleStyle::default()
+    };
     let document = html! {
         (maud::DOCTYPE) html lang="en" {
             head {meta charset="utf-8";meta name="viewport" content="width=device-width, initial-scale=1";
                 title {"Rust UI showcase"} (ui::head(&prefix,true,None))}
             body class="ghtui-document" {div class="ghtui-app" data-ui-app data-ui-theme="standard" data-ui-mode="system"
                 data-ui-density="comfortable" data-ui-storage-key="rust-htmx-ui:showcase" {
-                (ui::app_shell("showcase","Rust UI","Synthetic component examples",html!{nav {a class="ghtui-shell-link" href="#components" {"Components"}}},html!{},html!{
+                (ui::app_shell_with_style("showcase","Rust UI","Synthetic component examples",html!{nav {a class="ghtui-shell-link" href="#components" {"Components"}}},html!{},html!{
                     h1 id="components" {"Component showcase"}
                     (ui::stack(html!{
                         (ui::widget("Controls","Shared presentation without a framework runtime.",html!{},html!{
@@ -29,7 +34,7 @@ fn main() -> io::Result<()> {
                         (ui::modal("sample-dialog","Example dialog",html!{p {"Native modal and shared focus behavior."}},
                             html!{button type="button" class="ghtui-button ghtui-button-secondary" data-ui-modal-close {"Close"}}))
                     }))
-                }))
+                }, appearance_style))
             }}
         }
     };
