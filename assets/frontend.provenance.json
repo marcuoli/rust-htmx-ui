@@ -32,7 +32,7 @@
     }
   },
   "assets": {
-    "ui.css": "48ee197bed639cc6c858894f85b8b9478041501785c0d54582b95acffc8cac03",
+    "ui.css": "59f419eb86108aec6dc6e70c3887cf391257887de26cd2322332ccc20c94be1f",
     "frontend.css": "4e48c5030b9df993a6cf0e9be65b59ac086ad3ebc5a522b786bc6cb70bee9b1c",
     "ui-core.js": "a077cbfe3b5de78e228ca0317308a6bf00aa78faee325edf2d607cf5fcad7bc0",
     "frontend-versions.json": "3d3c9182a6182d495cc91e0bfa5c8993d4f7fba6f2f5035abc4b3ef740c3e489",

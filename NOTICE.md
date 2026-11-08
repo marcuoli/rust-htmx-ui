@@ -8,8 +8,9 @@ c60517495bac85c28d23e4ffb0b5276eeecf5cb5, MIT.
 Source: https://github.com/marcuoli/go-htmx-ui/tree/c60517495bac85c28d23e4ffb0b5276eeecf5cb5/web/assets
 Original SHA-256 hashes are retained in assets/provenance.json. ui.css is rebuilt
 from the original first-party styles/theme generator using pinned Tailwind4.3.5;
-its derived hash and build version are recorded in that manifest. Other copied
-runtimes and official chart assets retain their original bytes.
+its derived hash and build version are recorded in that manifest. The Rust presentation runtime derives ui-runtime.js to support shared sun/moon
+controls; derived hashes are recorded separately from the original source hashes.
+Other copied runtimes and official chart assets retain their original bytes.
 rust-ui.css contains the Rust adapter's small additional component rules.
 
 The official ECharts 6.1.0 engine remains unmodified. Its original provenance

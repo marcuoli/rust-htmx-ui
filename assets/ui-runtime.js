@@ -38,6 +38,12 @@
    select.value=select.hasAttribute("data-ui-theme-select")?prefs.theme:prefs.mode;
    select.disabled=false;
   }
+  for(const toggle of root.querySelectorAll("[data-ui-mode-toggle]")) {
+   if(toggle.closest(appSelector)!==root)continue;
+   const isDark=resolved(prefs)==="dark",label=isDark?"Switch to light mode":"Switch to dark mode";
+   toggle.disabled=false;toggle.setAttribute("aria-label",label);toggle.title=label;
+   for(const icon of toggle.querySelectorAll("[data-ui-mode-icon]"))icon.toggleAttribute("hidden",icon.dataset.uiModeIcon!==(isDark?"sun":"moon"));
+  }
  }
  function reconcile(root,{persist=false,force=false}={}) {
   const prefs=read(root),state=apps.get(root),mode=resolved(prefs);
@@ -119,6 +125,11 @@
   setAppearance(root,select.hasAttribute("data-ui-theme-select")?{theme:select.value}:{mode:select.value});
  });
  document.addEventListener("click",event=>{
+  const appearance=event.target.closest?.("[data-ui-mode-toggle]");
+  if(appearance) {
+   const root=appearance.closest(appSelector);if(!root||appearance.disabled)return;
+   setAppearance(root,{mode:resolved(read(root))==="dark"?"light":"dark"});return;
+  }
   const toggle=event.target.closest?.("[data-ui-shell-toggle]");if(!toggle)return;
   const shell=toggle.closest(shellSelector);if(!shell)return;
   enhanceShell(shell);const state=shells.get(shell);if(!state)return;

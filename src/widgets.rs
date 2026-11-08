@@ -31,7 +31,11 @@ impl Tone {
 pub struct Status<'a> {
     /// Visible status text.
     pub label: &'a str,
-    /// Static tone.
+    /// Full accessible status text, also shown as a tooltip. Include the visible label.
+    pub description: Option<&'a str>,
+    /// Optional trusted Alpine expression for the full accessible status text.
+    pub description_binding: Option<&'a str>,
+    /// Static tone, applied to the dot/ring independently of the neutral label.
     pub tone: Tone,
     /// Optional trusted Alpine label expression.
     pub text: Option<&'a str>,
@@ -44,7 +48,8 @@ pub struct Status<'a> {
 }
 /// Render status without using color alone to communicate its meaning.
 pub fn status(props: &Status<'_>) -> Markup {
-    html! {span class="ghtui-status" data-tone=(props.tone.as_str()) data-pulse=(props.pulse) data-pulse-style="ring"
+    html! {span class="ghtui-status" role="status" title=[props.description] aria-label=[props.description]
+        x-bind:title=[props.description_binding] x-bind:aria-label=[props.description_binding] data-tone=(props.tone.as_str()) data-pulse=(props.pulse) data-pulse-style="ring"
         x-bind:data-tone=[props.tone_binding] x-bind:data-pulse=[props.pulse_binding] {
         span class="ghtui-status-dot" aria-hidden="true" {}
         span class="ghtui-status-label" x-text=[props.text] {(props.label)}

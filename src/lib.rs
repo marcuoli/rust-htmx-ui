@@ -1,5 +1,5 @@
 //! Escaped Rust components and embedded assets for server-rendered applications.
-//! Consumers own authentication, routes, state, Alpine/HTMX and SSE.
+//! Consumers own authentication, routes, domain state and SSE; this crate owns frontend runtimes.
 #![deny(missing_docs)]
 pub use maud;
 mod assets;

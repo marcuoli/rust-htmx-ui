@@ -82,3 +82,30 @@ fn shared_view_host_owns_request_synchronization() {
     assert!(markup.contains("data-ui-view"));
     assert!(markup.contains("hx-sync=\"this:replace\""));
 }
+
+#[test]
+fn appearance_control_is_an_accessible_progressive_sun_moon_button() {
+    let markup = ui::theme_switcher().into_string();
+    assert!(markup.contains("data-ui-mode-toggle"));
+    assert!(markup.contains("aria-label=\"Switch to dark mode\""));
+    assert!(markup.contains("data-ui-mode-icon=\"sun\""));
+    assert!(markup.contains("data-ui-mode-icon=\"moon\""));
+    assert!(markup.contains("disabled"));
+    assert!(!markup.contains("data-ui-mode-select"));
+}
+
+#[test]
+fn stable_status_labels_include_escaped_full_state_for_assistive_technology() {
+    let markup = ui::status(&ui::Status {
+        label: "Live updates",
+        description: Some("Live updates: <Disconnected>"),
+        description_binding: Some("connectionDescription"),
+        tone: ui::Tone::Warning,
+        ..Default::default()
+    })
+    .into_string();
+    assert!(markup.contains(">Live updates</span>"));
+    assert!(markup.contains("aria-label=\"Live updates: &lt;Disconnected&gt;\""));
+    assert!(markup.contains("title=\"Live updates: &lt;Disconnected&gt;\""));
+    assert!(markup.contains("x-bind:aria-label=\"connectionDescription\""));
+}
