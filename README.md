@@ -86,6 +86,14 @@ AssetPrefix rejects remote/encoded paths and dot segments. The library registers
 no routes or auth policy. Apply your app's middleware to all local asset/view
 routes and preserve CSP/session/origin controls.
 
+## Go/Rust UI parity
+
+Keep shared features, UI patterns, defaults and accessibility synchronized with
+[go-htmx-ui](https://github.com/marcuoli/go-htmx-ui). Every shared change checks
+counterpart impact and records a matching implementation or linked owner gap.
+See [the parity contract](docs/ui-parity.md) for defaults, appearance/status
+patterns, public API mapping, behavior checks and exact release evidence.
+
 ## Maintenance
 
 Only this repository updates/builds frontend dependencies. Run
