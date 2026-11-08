@@ -116,5 +116,5 @@ pub fn field(props: &Field<'_>) -> Markup {
 /// URLs and Alpine expressions must be trusted server-defined values.
 pub fn nav_item(label: &str, href: &str, fragment: &str, target: &str, current: &str) -> Markup {
     html! {a class="ghtui-shell-link" href=(href) hx-get=(fragment) hx-target=(target)
-    hx-swap="innerHTML" x-bind:aria-current=(current) {(label)}}
+    hx-swap="innerHTML" hx-sync=(format!("{target}:replace")) x-bind:aria-current=(current) {(label)}}
 }
