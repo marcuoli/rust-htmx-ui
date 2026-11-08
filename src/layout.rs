@@ -14,7 +14,24 @@ pub fn page(title: &str, extra_head: Markup, body: Markup) -> Markup {
         }
     }
 }
-/// Render the shared theme/appearance selectors. They remain disabled without the runtime.
+/// Render a sun/moon button for the next light/dark appearance.
+/// System appearance follows the OS until the first explicit toggle. The shared
+/// runtime enables the button and synchronizes its icon, accessible name and title.
+pub fn appearance_toggle() -> Markup {
+    html! {button type="button" class="ghtui-button ghtui-button-secondary ghtui-mode-toggle"
+        data-ui-mode-toggle aria-label="Switch to dark mode" title="Switch to dark mode" disabled {
+        svg data-ui-mode-icon="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" {
+            path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" {}
+        }
+        svg data-ui-mode-icon="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden {
+            circle cx="12" cy="12" r="4" {}
+            path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" {}
+        }
+    }}
+}
+/// Render a theme selector and the shared sun/moon appearance button.
 pub fn theme_switcher() -> Markup {
     html! {div class="ghtui-theme-switcher" {
         label {span {"Theme"} select class="ghtui-input" data-ui-theme-select aria-label="Theme" disabled {
@@ -22,11 +39,7 @@ pub fn theme_switcher() -> Markup {
                 option value=(value) selected[value=="standard"] {(label)}
             }
         }}
-        label {span {"Appearance"} select class="ghtui-input" data-ui-mode-select aria-label="Appearance" disabled {
-            @for (value,label) in [("system","System"),("light","Light"),("dark","Dark")]{
-                option value=(value) selected[value=="system"] {(label)}
-            }
-        }}
+        (appearance_toggle())
     }}
 }
 /// Shared shell with accessible mobile navigation, skip link and theme controls.

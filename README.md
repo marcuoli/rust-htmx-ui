@@ -62,7 +62,14 @@ page, head, AssetPrefix, asset, app_shell, theme_switcher, view_host, stack, gri
 widget, metric, Button/Field/FieldKind, nav_item, Status/Tone, alert, modal and
 native ECharts chart hosts compose as escaped Maud Markup. The optional chart
 engine is loaded only by head(..., true, ...). Standard/Ocean/Forest support
-light/dark/system appearance and persistent preferences.
+light/dark/system appearance and persistent preferences. theme_switcher combines a
+theme selector with appearance_toggle, a keyboard-accessible sun/moon button.
+It shows the next action, follows the OS until clicked, then persists light/dark.
+System mode remains available through the scoped appearance API/root default.
+
+Status labels use neutral text; only the dot/ring carries the semantic tone.
+For a stable label such as Live updates, supply description/description_binding
+with the full state for the tooltip and accessible name.
 
 The API is not source-compatible with Go templ props. Go numeric compact/unit
 formatting APIs are not ported; tables remain a separate concern. The reviewed
