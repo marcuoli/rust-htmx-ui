@@ -1,9 +1,15 @@
 {
-  "name": "rust-htmx-ui-styles",
+  "name": "rust-htmx-ui-assets",
   "private": true,
   "type": "module",
+  "dependencies": {
+    "@alpinejs/csp": "3.17.5",
+    "htmx.org": "2.0.11",
+    "echarts": "6.1.0"
+  },
   "devDependencies": {
     "@tailwindcss/cli": "4.3.5",
-    "tailwindcss": "4.3.5"
+    "tailwindcss": "4.3.5",
+    "esbuild": "0.28.2"
   }
 }
