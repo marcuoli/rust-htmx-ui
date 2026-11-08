@@ -17,7 +17,7 @@ Public counterparts:
 | Palette | Standard initially; Standard, Ocean and Forest remain selectable. |
 | Appearance | System initially, following the OS until an explicit choice. |
 | Density | Comfortable initially; Compact remains supported. |
-| Appearance control | Sun/moon action button; palette selection is independent. |
+| Appearance control | Visually plain sun/moon icon by default; boxed button is explicit opt-in. Palette selection is independent. |
 | Status text | Neutral text; semantic color belongs to the decorative dot/ring. |
 | Status animation | Pulse is opt-in, stops when inactive and respects reduced motion. |
 | Resources | Local assets owned, built, versioned and initialized by the shared library. |
@@ -35,7 +35,11 @@ The sun/moon button describes its next action. Light mode shows a moon with
 A click resolves the current appearance and persists an explicit light/dark
 choice. System mode remains available through the appearance API/root default.
 Controls are disabled before runtime enhancement. Use native keyboard activation,
-decorative icons and an accessible action name/title.
+decorative icons and an accessible action name/title. Plain presentation has no
+persistent background, visible border or shadow. Retain the full control hit area
+and visible keyboard focus. The explicit Button variant may add the boxed secondary
+treatment without changing behavior, glyph dimensions or header alignment.
+Standalone, theme-switcher and shell APIs must expose the option and default to Plain.
 
 Multiple controls within one root synchronize; nested roots remain independent.
 New DOM/SPA fragments, OS changes and cross-tab storage updates reconcile controls.
@@ -57,13 +61,16 @@ decides connection freshness and pulse state; the shared component presents it.
 
 | Pattern | Rust API | Go counterpart |
 | --- | --- | --- |
-| Theme controls | theme_switcher, appearance_toggle | ThemeSwitcher and its shared appearance button |
+| Theme controls | theme_switcher, appearance_toggle; *_with_style / AppearanceToggleStyle | ThemeSwitcher and its shared appearance button |
 | Status | Status / status, description and description_binding | StatusIndicator; Attributes/Alpine bindings supply full state |
 | Defaults | page and scoped data-ui-* root | App / theme.Config and scoped data-ui-* root |
 
-Rust behavior is qualified in [v0.3.0](https://github.com/marcuoli/rust-htmx-ui/releases/tag/v0.3.0),
-commit 7c8786cabd7727b24638912421559fdf8501b346,
-[PR #6](https://github.com/marcuoli/rust-htmx-ui/pull/6).
+Rust plain/default and explicit Button behavior is qualified for
+[v0.4.0](https://github.com/marcuoli/rust-htmx-ui/releases/tag/v0.4.0), tracked in
+[issue #11](https://github.com/marcuoli/rust-htmx-ui/issues/11). Rust/Clippy1.99.1,
+Windows x86_64 MSVC default features: fmt, locked all-target Clippy -D warnings,
+9 native tests and package verification passed. Edge checks cover both styles,
+keyboard focus, OS/storage/scoping behavior and60 header geometry combinations.
 The Go appearance/status/default alignment and counterpart documentation are
 tracked in [go-htmx-ui #34](https://github.com/marcuoli/go-htmx-ui/issues/34).
 That link records pending work until the Go owner provides tested release proof;

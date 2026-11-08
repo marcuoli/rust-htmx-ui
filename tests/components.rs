@@ -109,3 +109,26 @@ fn stable_status_labels_include_escaped_full_state_for_assistive_technology() {
     assert!(markup.contains("title=\"Live updates: &lt;Disconnected&gt;\""));
     assert!(markup.contains("x-bind:aria-label=\"connectionDescription\""));
 }
+
+#[test]
+fn appearance_style_defaults_to_plain_and_boxed_treatment_is_explicit() {
+    let default = ui::appearance_toggle().into_string();
+    assert!(default.contains("data-ui-appearance-style=\"plain\""));
+    assert!(!default.contains("ghtui-button-secondary"));
+    let boxed = ui::appearance_toggle_with_style(ui::AppearanceToggleStyle::Button).into_string();
+    assert!(boxed.contains("data-ui-appearance-style=\"button\""));
+    assert!(boxed.contains("ghtui-button-secondary"));
+    let switcher = ui::theme_switcher_with_style(ui::AppearanceToggleStyle::Button).into_string();
+    assert!(switcher.contains("data-ui-appearance-style=\"button\""));
+    let shell = ui::app_shell_with_style(
+        "shell",
+        "Example",
+        "",
+        html! {},
+        html! {},
+        html! {},
+        ui::AppearanceToggleStyle::Button,
+    )
+    .into_string();
+    assert!(shell.contains("data-ui-appearance-style=\"button\""));
+}

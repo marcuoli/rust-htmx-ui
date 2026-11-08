@@ -64,7 +64,13 @@ native ECharts chart hosts compose as escaped Maud Markup. The optional chart
 engine is loaded only by head(..., true, ...). Standard/Ocean/Forest support
 light/dark/system appearance and persistent preferences. theme_switcher combines a
 theme selector with appearance_toggle, a keyboard-accessible sun/moon button.
+The default is a plain icon with a transparent border/background and no shadow;
+it retains native button semantics, its hit area and a visible keyboard focus ring.
 It shows the next action, follows the OS until clicked, then persists light/dark.
+Use appearance_toggle_with_style, theme_switcher_with_style or app_shell_with_style
+with AppearanceToggleStyle::Button to opt into the boxed presentation. The zero/default
+style is AppearanceToggleStyle::Plain. Both variants share behavior and dimensions.
+The showcase uses the default; pass --button-appearance to demonstrate the opt-in.
 System mode remains available through the scoped appearance API/root default.
 
 Status labels use neutral text; only the dot/ring carries the semantic tone.

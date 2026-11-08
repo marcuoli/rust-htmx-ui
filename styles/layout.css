@@ -54,6 +54,8 @@
  }
  .ghtui-theme-switcher { display:flex; flex-wrap:wrap; align-items:end; gap:10px; }
  .ghtui-app .ghtui-mode-toggle { width:var(--ghtui-control-height); height:var(--ghtui-control-height); padding:0; flex:none; }
+ .ghtui-mode-toggle-plain { color:var(--ghtui-text); background:transparent; border-color:transparent; box-shadow:none; }
+ .ghtui-mode-toggle-plain:hover { color:var(--ghtui-accent); }
  .ghtui-mode-toggle svg { width:20px; height:20px; flex:none; }
  .ghtui-mode-toggle svg[hidden] { display:none; }
  .ghtui-mode-toggle:focus-visible { outline:2px solid var(--ghtui-accent); outline-offset:3px; }

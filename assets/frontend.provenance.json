@@ -32,8 +32,8 @@
     }
   },
   "assets": {
-    "ui.css": "66f96aa3c44f1fd1c2123b212f6d4ed6c2ece6c8c3c898802ae9ed00dadb8ce9",
-    "frontend.css": "4e48c5030b9df993a6cf0e9be65b59ac086ad3ebc5a522b786bc6cb70bee9b1c",
+    "ui.css": "7d7a201d6bf0799ade7a971ce7107eb4e0d589a4ebb1e5f513b6c65b2d534ecb",
+    "frontend.css": "656a28eaa426f4de9ca7b2cd9d0c39ac75854b4a865d67b79f0bad1279904dd4",
     "ui-core.js": "a077cbfe3b5de78e228ca0317308a6bf00aa78faee325edf2d607cf5fcad7bc0",
     "frontend-versions.json": "3d3c9182a6182d495cc91e0bfa5c8993d4f7fba6f2f5035abc4b3ef740c3e489",
     "frontend-LICENSES.txt": "124e288ab02943c877623d75fbb2dfb5f60046c8d98fbff36d5571c8530bd511",
