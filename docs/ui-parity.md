@@ -41,6 +41,12 @@ Multiple controls within one root synchronize; nested roots remain independent.
 New DOM/SPA fragments, OS changes and cross-tab storage updates reconcile controls.
 Unavailable storage must not prevent in-page changes. Glyphs remain square and
 legible in both densities; verify computed layout against shared button padding.
+Within shell headers, keep the visible theme label inline with its selector.
+Action buttons, selector and appearance button share control height and vertical
+center within each wrapped row; status text aligns to that same center. Check
+computed bounds in both densities and narrow screens. Header alignment is tracked
+in [rust-htmx-ui #9](https://github.com/marcuoli/rust-htmx-ui/issues/9); the Go
+counterpart belongs to [go-htmx-ui #34](https://github.com/marcuoli/go-htmx-ui/issues/34).
 
 For a live-update indicator, use a stable visible label such as "Live updates".
 Expose full state, including the visible label, in its tooltip and accessible
