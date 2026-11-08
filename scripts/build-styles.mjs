@@ -1,0 +1,14 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {join} from 'node:path';
+import {themeCSS} from './theme-css.mjs';
+const [modules,output]=process.argv.slice(2);
+if(!modules||!output)throw Error('Pass scoped node_modules and absolute output path');
+const reference=JSON.stringify(join(modules,'tailwindcss/index.css').replaceAll('\\','/'));
+const styles=readFileSync('styles/components.css','utf8')+'\n'+themeCSS(JSON.parse(readFileSync('styles/themes.json','utf8')))+'\n'+readFileSync('styles/layout.css','utf8')+'\n'+readFileSync('styles/feedback.css','utf8');
+writeFileSync('styles/input.css',styles.replace('@reference "tailwindcss";','@reference '+reference+';'));
+const result=spawnSync(process.execPath,[join(modules,'@tailwindcss/cli/dist/index.mjs'),'-i','styles/input.css','-o',output,'--minify'],{stdio:'inherit'});
+if(result.error)throw result.error;
+if(result.status!==0)throw Error('Tailwind style build failed');
+const css=readFileSync(output,'utf8').replaceAll('--tw-','--ghtui-tw-').replace(/--(?!ghtui-)([a-z][a-z0-9-]*)/g,'--ghtui-theme-$1').replaceAll('*,:before,:after,::backdrop',':where([class*="ghtui-"]),:where([class*="ghtui-"])::before,:where([class*="ghtui-"])::after,:where([class*="ghtui-"])::backdrop');
+writeFileSync(output,css);

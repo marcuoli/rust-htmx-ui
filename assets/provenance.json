@@ -1,0 +1,72 @@
+{
+  "tag": "v0.11.0+20261106.31",
+  "source": "https://github.com/marcuoli/go-htmx-ui",
+  "files": [
+    {
+      "sha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+      "file": "echarts-d3.LICENSE.txt"
+    },
+    {
+      "sha256": "35228e964507f5a17b76b94745b8d2f8ff037100684a27b1f32b306ca882e36f",
+      "file": "echarts-format.js"
+    },
+    {
+      "sha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "file": "echarts.LICENSE.txt"
+    },
+    {
+      "sha256": "b66b25aeb4df84e33199dc21694014d336d222cbd9deb0e5a7c14bd6aa0d0fd0",
+      "file": "echarts.min.js"
+    },
+    {
+      "sha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "file": "echarts.NOTICE.txt"
+    },
+    {
+      "sha256": "a8981a1625864aa18246b9fbf9062beeb81366afca1d6a44d36599b62a05728e",
+      "file": "echarts.provenance.json"
+    },
+    {
+      "sha256": "dd835e67a9a297da32f9467d7677a5d02c8e50e10f15da43b810147c79c04b9b",
+      "file": "tslib.CopyrightNotice.txt"
+    },
+    {
+      "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751",
+      "file": "tslib.LICENSE.txt"
+    },
+    {
+      "sha256": "5eaf1bee787f0d2026400c8cef0f84be7097726516a09e2caff52a75c11a2d41",
+      "file": "ui-feedback.js"
+    },
+    {
+      "sha256": "97cc51f5a098efa4d3a08c2f5656eff37aa826e27845db1c5dffac6bb8d9ae2c",
+      "file": "ui-htmx-charts.js"
+    },
+    {
+      "sha256": "1808e9af97ed1891fb044b0f76245c45b1eadef27a572f3bc409ce1226fd54a1",
+      "file": "ui-runtime.js"
+    },
+    {
+      "sha256": "af6c4cef5b2d6941dea4ba32a96f6e00f7faf61b94af4f2f60f78edd501fdbbf",
+      "file": "ui.css"
+    },
+    {
+      "sha256": "a681e9d183c72b4af4856935893805eb48c08f0f5a3f260203db7444c20fb98a",
+      "file": "zrender.LICENSE.txt"
+    }
+  ],
+  "commit": "c60517495bac85c28d23e4ffb0b5276eeecf5cb5",
+  "derived_styles": {
+    "tailwind": "4.3.5",
+    "sha256": "48ee197bed639cc6c858894f85b8b9478041501785c0d54582b95acffc8cac03",
+    "output": "ui.css",
+    "source_paths": [
+      "web/styles/components.css",
+      "web/styles/layout.css",
+      "web/styles/feedback.css",
+      "web/styles/themes.json",
+      "web/scripts/theme-css.mjs"
+    ],
+    "generation": "Original first-party component/theme source compiled with current pinned Tailwind; no dependency source patching."
+  }
+}

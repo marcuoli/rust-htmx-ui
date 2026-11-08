@@ -1,0 +1,5 @@
+@layer components {
+  .ghtui-shell-link[aria-current="page"] { background:var(--ghtui-raised);color:var(--ghtui-text); }
+  .ghtui-input { min-width:0; }
+  .ghtui-metric-value { overflow-wrap:anywhere; }
+}
