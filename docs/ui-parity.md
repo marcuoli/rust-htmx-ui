@@ -61,20 +61,50 @@ decides connection freshness and pulse state; the shared component presents it.
 
 | Pattern | Rust API | Go counterpart |
 | --- | --- | --- |
-| Theme controls | theme_switcher, appearance_toggle; *_with_style / AppearanceToggleStyle | ThemeSwitcher and its shared appearance button |
-| Status | Status / status, description and description_binding | StatusIndicator; Attributes/Alpine bindings supply full state |
+| Theme controls | theme_switcher, appearance_toggle; *_with_style / AppearanceToggleStyle | AppearanceToggle / AppearanceToggleStyle; ThemeSwitcher and AppShell AppearanceStyle |
+| Status | Status / status, description and description_binding | StatusIndicator; Description / Alpine.Description supply full state, explicit caller attributes take precedence |
 | Defaults | page and scoped data-ui-* root | App / theme.Config and scoped data-ui-* root |
 
 Rust plain/default and explicit Button behavior is qualified for
-[v0.4.0](https://github.com/marcuoli/rust-htmx-ui/releases/tag/v0.4.0), tracked in
+[v0.4.0](https://github.com/marcuoli/rust-htmx-ui/releases/tag/v0.4.0), commit
+e6345bedd4fc3f40059edc44a83e4165f94eb9c5, tracked in
 [issue #11](https://github.com/marcuoli/rust-htmx-ui/issues/11). Rust/Clippy1.99.1,
 Windows x86_64 MSVC default features: fmt, locked all-target Clippy -D warnings,
 9 native tests and package verification passed. Edge checks cover both styles,
 keyboard focus, OS/storage/scoping behavior and60 header geometry combinations.
-The Go appearance/status/default alignment and counterpart documentation are
-tracked in [go-htmx-ui #34](https://github.com/marcuoli/go-htmx-ui/issues/34).
-That link records pending work until the Go owner provides tested release proof;
-a sent request or source change alone does not establish released parity.
+The Go counterpart is published as
+[v0.13.0+20261108.35](https://github.com/marcuoli/go-htmx-ui/releases/tag/v0.13.0%2B20261108.35),
+commit fece9a59746e2c28ac532a5bfc8e7871c546882f,
+[PR #35](https://github.com/marcuoli/go-htmx-ui/pull/35). Its public release, tag
+and merged commit agree; both hosted verify checks passed. See its
+[immutable parity policy](https://github.com/marcuoli/go-htmx-ui/blob/v0.13.0%2B20261108.35/docs/ui-parity.md)
+for the owner-recorded Go1.27.3 Windows/amd64 (CGO disabled) qualification:
+Go tests/vet/module verification,130 JavaScript tests, advisory checks and Edge
+behavior coverage including48 width/palette/light-dark/density geometry
+combinations. Separate checks cover both visual styles, keyboard, OS/storage/
+scoping and HTMX2/4. Those are Go
+release results, not a new cross-library test run for this documentation update.
+[Go issue #34](https://github.com/marcuoli/go-htmx-ui/issues/34) retains the
+delivery/cleanup record separately from the verified runtime publication.
+
+## Documented differences and follow-up
+
+Go uses AppearancePlain for zero/unknown styles and AppearanceButton for the
+explicit boxed style. Rust uses the typed AppearanceToggleStyle::Plain default
+and Button variant. Standalone, theme-switcher and shell APIs expose the same
+visual choice while keeping their language-specific configuration forms.
+
+Status announcement defaults differ. Go described indicators use a named,
+non-live role="group"; explicit caller role/attributes win, and live announcements
+are opt-in through role="status" or aria-live. This preserves existing repeated
+and table indicator behavior. Rust v0.4.0 status() always renders role="status",
+including described indicators, and has no equivalent role/announcement option.
+[Rust issue #14](https://github.com/marcuoli/rust-htmx-ui/issues/14) tracks aligning
+that default and explicit option with native/AX/browser and consumer-compatibility
+checks. Until qualified, consumers must not assume announcement behavior matches.
+
+Default preference storage keys remain language-specific
+(go-htmx-ui:appearance / rust-htmx-ui:appearance) to isolate application choices.
 
 The Rust README records existing API limitations, including unported Go numeric
 compact/unit formatting. This contract does not establish full historical API
