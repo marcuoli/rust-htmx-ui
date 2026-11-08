@@ -17,3 +17,5 @@ and all Apache/ECharts/zrender/d3/tslib licenses/notices are retained beside it.
 A consumer enabling charts must distribute those notices. Maud and serde_json
 are official released dependencies recorded in Cargo.lock and their upstream
 licenses apply separately.
+
+Since0.2.0 the library also bundles official HTMX, Alpine CSP and their dependency notices, builds shared Tailwind frontend CSS and owns initialization. frontend-LICENSES.txt, frontend-versions.json and frontend.provenance.json record the exact distribution; licenses/ retains the official Alpine release license omitted from its npm CSP package.

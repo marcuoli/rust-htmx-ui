@@ -10,6 +10,26 @@ pub struct Asset {
 /// Find a shared asset. Unknown names and traversal return None.
 pub fn asset(name: &str) -> Option<Asset> {
     let (mime, bytes): (&str, &[u8]) = match name {
+        "frontend.provenance.json" => (
+            "application/json",
+            include_bytes!("../assets/frontend.provenance.json"),
+        ),
+        "frontend.css" => (
+            "text/css; charset=utf-8",
+            include_bytes!("../assets/frontend.css"),
+        ),
+        "ui-core.js" => (
+            "text/javascript; charset=utf-8",
+            include_bytes!("../assets/ui-core.js"),
+        ),
+        "frontend-versions.json" => (
+            "application/json",
+            include_bytes!("../assets/frontend-versions.json"),
+        ),
+        "frontend-LICENSES.txt" => (
+            "text/plain; charset=utf-8",
+            include_bytes!("../assets/frontend-LICENSES.txt"),
+        ),
         "rust-ui.css" => (
             "text/css; charset=utf-8",
             include_bytes!("../assets/rust-ui.css"),
@@ -108,8 +128,10 @@ impl AssetPrefix {
 /// Charts are opt-in. Applications supply their own CSP and optional nonce.
 pub fn head(prefix: &AssetPrefix, charts: bool, nonce: Option<&str>) -> Markup {
     html! {
+        link rel="stylesheet" href=(format!("{}frontend.css",prefix.0));
         link rel="stylesheet" href=(format!("{}ui.css",prefix.0));
         link rel="stylesheet" href=(format!("{}rust-ui.css",prefix.0));
+        script defer src=(format!("{}ui-core.js",prefix.0)) nonce=[nonce] {}
         script defer src=(format!("{}ui-runtime.js",prefix.0)) nonce=[nonce] {}
         script defer src=(format!("{}ui-feedback.js",prefix.0)) nonce=[nonce] {}
         @if charts {

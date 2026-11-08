@@ -64,3 +64,8 @@ pub fn grid(columns: u8, body: Markup) -> Markup {
 pub fn stack(body: Markup) -> Markup {
     html! {div class="ghtui-stack" {(body)}}
 }
+
+/// Stable SPA fragment target. Shared navigation owns its request cancellation group.
+pub fn view_host(id: &str, body: Markup) -> Markup {
+    html! {div id=(id) data-ui-view hx-sync="this:replace" {(body)}}
+}
