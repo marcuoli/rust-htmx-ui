@@ -4,12 +4,14 @@ param(
 )
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
+$ProjectStorage=[IO.Path]::GetFullPath($ProjectStorage)
 $scratch=Join-Path $ProjectStorage ('tmp\'+$TaskName)
-$stage=Join-Path $scratch ('assets-'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ'))
+$stage=Join-Path $scratch ('assets-'+[Guid]::NewGuid().ToString('N'))
 $logs=Join-Path $ProjectStorage ('artifacts\runs\'+$TaskName+'\frontend')
 $changes=@{TEMP=$scratch;TMP=$scratch;TMPDIR=$scratch;npm_config_cache=(Join-Path $ProjectStorage 'caches\npm');npm_config_update_notifier='false';PATH=('V:\Development\tools\node\24.22.1;'+$env:PATH)}
 $saved=@{}
-New-Item -ItemType Directory -Force -Path $stage,$logs,(Join-Path $logs 'assets')|Out-Null
+New-Item -ItemType Directory -Force -Path $scratch,$logs,(Join-Path $logs 'assets')|Out-Null
+New-Item -ItemType Directory -Path $stage|Out-Null
 try{
  foreach($key in $changes.Keys){$saved[$key]=[Environment]::GetEnvironmentVariable($key,'Process');[Environment]::SetEnvironmentVariable($key,$changes[$key],'Process')}
  & (Join-Path $PSScriptRoot 'Check-FrontendDependencies.ps1') -Manifest (Join-Path $root 'package.json') -Output (Join-Path $logs 'versions.json')
@@ -35,5 +37,29 @@ try{
   }
   @{CheckedUtc=[DateTime]::UtcNow.ToString('o');Files=$hashes}|ConvertTo-Json -Depth 4|Set-Content (Join-Path $logs 'asset-hashes.json')
  }finally{Pop-Location}
-}finally{foreach($key in $saved.Keys){[Environment]::SetEnvironmentVariable($key,$saved[$key],'Process')}}
+ # Only this invocation's completed stage is disposable; logs/assets stay outside it.
+ $stageDirectory=Get-Item -LiteralPath $stage -Force
+ for($ancestor=$stageDirectory;$null -ne $ancestor;$ancestor=$ancestor.Parent){
+  if($ancestor.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'Asset stage has a redirected ancestor; cleanup refused'}
+ }
+ $directories=[Collections.Generic.Stack[IO.DirectoryInfo]]::new()
+ $directories.Push($stageDirectory)
+ while($directories.Count){
+  foreach($entry in Get-ChildItem -LiteralPath $directories.Pop().FullName -Force){
+   if($entry.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'Asset stage contains a redirect; cleanup refused'}
+   if($entry.PSIsContainer){$directories.Push($entry)}
+  }
+ }
+ Remove-Item -LiteralPath $stage -Recurse
+ if(Test-Path -LiteralPath $stage){throw 'Asset stage remains after cleanup'}
+}catch{
+ Write-Warning ('Frontend stage requires diagnosis/cleanup: '+$stage)
+ throw
+}finally{
+ foreach($key in $saved.Keys){
+  # Preserve absent variables as absent on hosts that distinguish empty values.
+  if($null -eq $saved[$key]){Remove-Item -LiteralPath ('Env:\'+$key) -ErrorAction SilentlyContinue}
+  else{[Environment]::SetEnvironmentVariable($key,$saved[$key],'Process')}
+ }
+}
 'Shared frontend assets built and audited.'
