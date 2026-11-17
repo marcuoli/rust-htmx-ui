@@ -161,6 +161,25 @@ When porting the formatter under issue #16:
 The Rust README records other existing API limitations. This contract does not
 establish full historical API parity; unrelated ports remain explicit gaps.
 
+### Subsequent Go-only dependency maintenance
+
+The later
+[v0.13.2+20261117.39](https://github.com/marcuoli/go-htmx-ui/releases/tag/v0.13.2%2B20261117.39),
+commit 60e86ac30357259ce426d03d8f9b2398484894a5,
+[PR #39](https://github.com/marcuoli/go-htmx-ui/pull/39), closes
+[Go issue #38](https://github.com/marcuoli/go-htmx-ui/issues/38). Its dependency
+refresh adopts templ 0.3.1118, parse 0.0.42 and the refreshed table dependency.
+The Go release records regenerated bodies, public APIs and shared assets as
+unchanged, with generator-version comments updated. See its
+[dependency review](https://github.com/marcuoli/go-htmx-ui/blob/60e86ac30357259ce426d03d8f9b2398484894a5/docs/go-dependencies.md)
+for exact coordinates, compatibility constraints and qualification.
+
+Go's declared module/build requirement remains 1.27.4. Separately labeled README
+source-compatibility evidence does not lower that requirement. This Go-only
+maintenance release requests no new Rust feature/default port and does not
+implement the existing Rust issue #16 compact/exact metric gap. Rust runtime,
+frontend dependency pins and qualification remain unchanged.
+
 ## Required change and release record
 
 For every shared feature, pattern or default change:
