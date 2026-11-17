@@ -78,7 +78,16 @@ For a stable label such as Live updates, supply description/description_binding
 with the full state for the tooltip and accessible name.
 
 The API is not source-compatible with Go templ props. Go numeric compact/unit
-formatting APIs are not ported; tables remain a separate concern. The reviewed
+formatting and separate compact/exact accessible metric values remain unported
+under [issue #16](https://github.com/marcuoli/rust-htmx-ui/issues/16), independently
+of closed policy issue #7. The v0.4.0 metric function renders the supplied exact
+string directly; optional bindings update both visible text and title. Supply
+the exact value rather than assuming a separate formatter/accessibility API.
+The pending port must preserve exact integer/duration names once, using valid
+non-live naming semantics rather than aria-label on a paragraph. See the
+[metric parity record](docs/ui-parity.md#metric-values-and-pending-compactunit-formatting)
+for the local, unpublished Go issue #36 correction and required qualification.
+Tables remain a separate concern. The reviewed
 first-party presentation runtime keeps its existing GoHTMXUI namespace/data-ui-*
 contract for themes, feedback and optional charts; consumers use RustHTMXUI for
 frontend dependency/runtime operations.
