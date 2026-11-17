@@ -106,10 +106,47 @@ checks. Until qualified, consumers must not assume announcement behavior matches
 Default preference storage keys remain language-specific
 (go-htmx-ui:appearance / rust-htmx-ui:appearance) to isolate application choices.
 
-The Rust README records existing API limitations, including unported Go numeric
-compact/unit formatting. This contract does not establish full historical API
-parity. Record affected gaps when assessing each feature; unrelated historical
-ports are not silently treated as implemented.
+### Metric values and pending compact/unit formatting
+
+Rust [v0.4.0](https://github.com/marcuoli/rust-htmx-ui/releases/tag/v0.4.0),
+commit e6345bedd4fc3f40059edc44a83e4165f94eb9c5, renders the supplied metric
+value directly as text. The optional binding updates both text and title; there
+is no separate compact visual value/exact accessible value API. See the
+[released implementation](https://github.com/marcuoli/rust-htmx-ui/blob/e6345bedd4fc3f40059edc44a83e4165f94eb9c5/src/widgets.rs#L66).
+The current direct-text rendering has no matching immediate defect from Go's
+paragraph-label issue.
+
+[Rust issue #16](https://github.com/marcuoli/rust-htmx-ui/issues/16) tracks the
+unimplemented compact/unit formatter port and its exact accessible-value
+contract. Closed [policy issue #7](https://github.com/marcuoli/rust-htmx-ui/issues/7)
+does not represent implementation or qualification of this port.
+
+Go's WidgetMetricValue also supports compact visual text with a separate exact
+accessible value. The correction in
+[Go full-review issue #36](https://github.com/marcuoli/go-htmx-ui/issues/36)
+uses a non-live role="group" with the exact aria-label and an aria-hidden="true"
+compact child, replacing aria-label on a naming-prohibited paragraph. The Go
+owner reports native Edge checks of exact uint64/duration names without duplicate
+compact text. **That correction is local and not yet published in the owner
+report; no immutable Go fix commit/release has been supplied.** This is distinct
+from the published appearance/status baseline above and is not a new Rust
+browser or assistive-technology qualification.
+
+When porting the formatter under issue #16:
+
+- Preserve exact integer and duration values alongside compact presentation;
+  avoid precision loss when handling the full unsigned-integer range.
+- Use semantics that permit the exact accessible name. A non-live named group
+  with its compact visual child hidden from accessibility is the Go reference;
+  do not attach aria-label to the current paragraph as a substitute.
+- Verify the exact accessible value appears once, without a second compact
+  announcement. Match the Go non-live default and assess consumer compatibility.
+- Qualify idiomatic Rust APIs and static/bound/inserted values with native tests
+  and native-browser accessibility-tree checks. Record both owners' exact tested
+  and published references before claiming released parity.
+
+The Rust README records other existing API limitations. This contract does not
+establish full historical API parity; unrelated ports remain explicit gaps.
 
 ## Required change and release record
 
