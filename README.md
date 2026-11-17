@@ -117,6 +117,12 @@ direct pin against official stable registry tags, installs with npm ci,
 audits the locked graph, builds styles/runtime and verifies/copies official chart
 assets/licenses. All temporary/generated state is staged on V: before snapshots
 are deliberately promoted. Third-party source and caches remain unmodified.
+After successful asset copying and hash recording, only the invocation's temporary
+stage is removed. Logs and output assets remain in the scoped run folder. Failed
+builds retain their stage for diagnosis and report its path; cleanup errors also
+fail the command. Redirected stages are retained for explicit review.
+Run scripts/Test-AssetStageLifecycle.ps1 with scoped ProjectStorage/TaskName to
+check this lifecycle with simulated registry/npm/node operations.
 
 The CSP package omits its license in npm; licenses/ retains the exact official
 Alpine release license with version/hash provenance. Asset metadata/notices are
