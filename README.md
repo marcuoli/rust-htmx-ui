@@ -84,9 +84,9 @@ of closed policy issue #7. The v0.4.0 metric function renders the supplied exact
 string directly; optional bindings update both visible text and title. Supply
 the exact value rather than assuming a separate formatter/accessibility API.
 The pending port must preserve exact integer/duration names once, using valid
-non-live naming semantics rather than aria-label on a paragraph. See the
+non-live naming semantics rather than aria-label alone on a paragraph. See the
 [metric parity record](docs/ui-parity.md#metric-values-and-pending-compactunit-formatting)
-for the local, unpublished Go issue #36 correction and required qualification.
+for the published Go v0.13.1+20261117.37 correction and pending Rust qualification.
 Tables remain a separate concern. The reviewed
 first-party presentation runtime keeps its existing GoHTMXUI namespace/data-ui-*
 contract for themes, feedback and optional charts; consumers use RustHTMXUI for
